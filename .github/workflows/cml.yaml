@@ -15,11 +15,18 @@ jobs:
       #   with:
       #     python-version: '3.x'
       - uses: iterative/setup-cml@v1
-      - name: Train model
+      - name: cml run
         run: |
           
           pip install -r requirements.txt
           python train.py
+      
+          echo "Model metrics" > report.md
+          cat metrics.txt >> report.md
           
-          echo "Model metrics"
-          cat metrics.txt
+          cml-publish feature_importance.png --md >> report.md
+          cml-publish residuals.png --md >> report.md
+          
+          cml-send-comment report.md
+          
+           
