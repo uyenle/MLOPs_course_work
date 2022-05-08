@@ -16,6 +16,8 @@ jobs:
       #     python-version: '3.x'
       - uses: iterative/setup-cml@v1
       - name: cml run
+        env:
+          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           
           pip install -r requirements.txt
@@ -24,6 +26,7 @@ jobs:
           echo "Model metrics" > report.md
           cat metrics.txt >> report.md
           
+          echo "Data plot" > report.md
           cml-publish feature_importance.png --md >> report.md
           cml-publish residuals.png --md >> report.md
           
